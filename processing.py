@@ -77,7 +77,7 @@ class message_header:
 
 # Class: Invalid Keyword, inherits Exception class
 # Purpose: Raise an exception for a bad keyword
-class InvalidKeyWord(Exception):
+class InvalidKeyword(Exception):
     pass
 
 # Class: Invalid Arguments, inherits Exception class
@@ -130,7 +130,7 @@ class user:
     # Function: Parse input
     # Purpose: take inputs and follow actions like in a command line
 
-    def parse_input():
+    def parse_input(self):
 
         command = input()
 
@@ -139,17 +139,18 @@ class user:
         
         if debug_flag:
             print("Keyword:" + keyword)
-            print("Arguments:" + args)
+            print("Arguments: ")
+            print(args)
 
         try:
 
-            if args.len() != valid_num_args_dict[keyword]:
+            if len(args) != self.valid_num_args_dict[keyword]:
                 raise InvalidNumArguments
 
             match keyword:
 
                 case "help":
-                    print(HELP_TABLE)
+                    print(self.HELP_TABLE)
 
                 case "connect":
                     
@@ -209,7 +210,11 @@ class user:
             print(f"Invalid Argument: '{invalid_arg}' for '{keyword}'. Type 'help' for a list of commands.")
 
         except InvalidNumArguments:
-            print(f"Invalid Arguments: {keyword} takes {valid_num_args_dict[keyword]} arguments, {args.len()} arguments were provided.")
+            print(f"Invalid Arguments: {keyword} takes {valid_num_args_dict[keyword]} arguments, {len()} arguments were provided.")
         
-        except:
-            print("An unknown error occured. Type 'help' for a list of commands.")
+        # For Final Product
+        #except:
+            #print("An unknown error occured. Type 'help' for a list of commands.")
+
+u = user("Derek")
+u.parse_input()
