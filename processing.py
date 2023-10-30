@@ -64,3 +64,27 @@ class message_header:
             self.subject = "[No Subject]"
         # Print in the above format
         print(f"Message ID:    {self.message_id}\nFrom:          {self.sender}\nSubject:       {self.subject}\nOn:            {self.date}\n\n{self.message}")
+
+def parse_input():
+    const help_resp = 
+                    """
+                    -----------------------------------------------------------------------Commands--------------------------------------------------------------------------------
+                    
+                    help                                 : Opens the commands section
+                    connect [address] [port]             : Connects to the running bulletin board server using the address and port.
+                    join                                 : Join the default message board.
+                    post [subject] [message]             : Posts a message with a subject to the default board.
+                    users                                : Retrieves a list of users in the default group.
+                    leave                                : Leave the default group.
+                    message [id]                         : Retrieve the content of the message given by the id.
+                    exit                                 : Exits the client program.
+                    groups                               : Retrieve a list of all groups that can be joined.
+                    groupjoin [name]                     : Join a specific group with given name.
+                    grouppost [name] [subject] [message] : Posts a message with a subject to the board given by the name.
+                    groupusers [name]                    : Retrieves a list of users in the group given by the name.
+                    groupleave [name]                    : Leaves a specific group.
+                    groupmessage [name] [id]             : Retrieves the content of a message using it's id posted earlier on a message board given by its name in a specific group.
+
+                    """
+
+    command = input()
