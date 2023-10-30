@@ -81,8 +81,13 @@ class InvalidKeyWord(Exception):
     pass
 
 # Class: Invalid Arguments, inherits Exception class
-# Purpose: Raise an exception for incorrect number of arguments
+# Purpose: Raise an exception for missing or bad agruments
 class InvalidArguments(Exception):
+    pass
+
+# Class: Invalid Number of Arguments, inherits Exception class
+# Purpose: Raise an exception for incorrect number of arguments
+class InvalidNumArguments(Exception):
     pass
 
 # Class: User
@@ -115,8 +120,12 @@ class user:
                         groupmessage [name] [id]             : Retrieves the content of a message using it's id posted earlier on a message board given by its name in a specific group.
 
                         """
-
-
+    valid_num_args_dict = myDict = {
+                                        **dict.fromkeys(['help', 'join', 'users', 'leave', 'exit', 'groups'], 0), 
+                                        **dict.fromkeys(['message', 'groupjoin', 'groupusers', 'groupleave'], 1),
+                                        **dict.fromkeys(['connect', 'post', 'groupmessage'], 2),
+                                                         'grouppost': 3
+                                    }
 
     # Function: Parse input
     # Purpose: take inputs and follow actions like in a command line
@@ -127,61 +136,80 @@ class user:
 
         keyword = command.split(' ')[0]
         args = command.split(' ')[1:]
-        allowed_args = 0
         
         if debug_flag:
             print("Keyword:" + keyword)
             print("Arguments:" + args)
 
         try:
+
+            if args.len() != valid_num_args_dict[keyword]:
+                raise InvalidNumArguments
+
             match keyword:
+
                 case "help":
-                    pass
+                    print(HELP_TABLE)
 
                 case "connect":
+                    
                     pass
         
                 case "join":
+
                     pass 
 
                 case "post":
+
                     pass
 
                 case "users":
                     pass
 
                 case "leave":
+
                     pass
 
                 case "message":
+
                     pass
 
                 case "exit":
+
                     pass
 
                 case "groups":
+
                     pass
 
                 case "groupjoin":
+
                     pass
 
                 case "grouppost":
+
                     pass
 
                 case "groupusers":
+
                     pass
 
                 case "groupleave":
+                    
                     pass
 
                 case "groupmessage":
+
                     pass
 
-                case _:
-                    raise(InvalidKeyword())
-
         except InvalidKeyword:
-            print(f"Invalid Keyword: {keyword}. Type 'help' for a list of commands.")
+            print(f"Invalid Keyword: '{keyword}'. Type 'help' for a list of commands.")
         
         except InvalidArguments:
-            print(f"Invalid Arguments: {keyword} takes {allowed_args} arguments, {args.len()} arguments were provided.")
+            print(f"Invalid Argument: '{invalid_arg}' for '{keyword}'. Type 'help' for a list of commands.")
+
+        except InvalidNumArguments:
+            print(f"Invalid Arguments: {keyword} takes {valid_num_args_dict[keyword]} arguments, {args.len()} arguments were provided.")
+        
+        except:
+            print("An unknown error occured. Type 'help' for a list of commands.")
