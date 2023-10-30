@@ -90,7 +90,11 @@ class InvalidArguments(Exception):
 #
 # Inputs: username
 
-class user(username: str):
+class user:
+
+    def __init__(self, username: str):
+        self.username = username
+
 
     HELP_TABLE =        """
                         -----------------------------------------------------------------------Commands--------------------------------------------------------------------------------
@@ -112,79 +116,72 @@ class user(username: str):
 
                         """
 
+
+
     # Function: Parse input
     # Purpose: take inputs and follow actions like in a command line
 
     def parse_input():
-        
 
         command = input()
 
         keyword = command.split(' ')[0]
         args = command.split(' ')[1:]
+        allowed_args = 0
         
         if debug_flag:
-            print("Keyword": + keyword)
-            print("Arguments": + args)
+            print("Keyword:" + keyword)
+            print("Arguments:" + args)
 
         try:
             match keyword:
                 case "help":
+                    pass
 
-                    break
                 case "connect":
-
-                    break
+                    pass
         
                 case "join":
-
-                    break
+                    pass 
 
                 case "post":
-
-                    break
+                    pass
 
                 case "users":
-
-                    break
+                    pass
 
                 case "leave":
-
-                    break
+                    pass
 
                 case "message":
+                    pass
 
-                    break
-
-                case "exit"
-
-                    break
+                case "exit":
+                    pass
 
                 case "groups":
-
-                    break
+                    pass
 
                 case "groupjoin":
-
-                    break
+                    pass
 
                 case "grouppost":
-
-                    break
+                    pass
 
                 case "groupusers":
-
-                    break
+                    pass
 
                 case "groupleave":
-
-                    break
+                    pass
 
                 case "groupmessage":
-
-                    break
+                    pass
 
                 case _:
                     raise(InvalidKeyword())
-        
+
         except InvalidKeyword:
+            print(f"Invalid Keyword: {keyword}. Type 'help' for a list of commands.")
+        
+        except InvalidArguments:
+            print(f"Invalid Arguments: {keyword} takes {allowed_args} arguments, {args.len()} arguments were provided.")
