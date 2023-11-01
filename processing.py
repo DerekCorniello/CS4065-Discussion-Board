@@ -1,5 +1,8 @@
 from datetime import datetime as dt
 
+# I/O for message headers
+import json
+
 # Debug flag for testing.
 debug_flag = True
 
@@ -36,23 +39,51 @@ class date_and_time:
 #       
 #       update_date(): Changes current time 
 #
-#       print_message(): prints the message with all necessary info held in the class.
+#       print_message(): Prints the message with all necessary info held in the class.
+#
+#       format_header(): Formats the header for web socket communication
 
 class message_header:
     message_id = 0
-    sender = subject = message = ""
-    date = None
+    header = subject = message = ""
+    sender = date = None
 
-    def __init__(self, message_id: int, sender: str, subject: str, message: str):
+    def __init__(self, message_id: int, sender: User, subject: str, message: str):
         self.message_id = message_id
         self.sender = sender
         self.subject = subject
         self.message = message
         self.update_date()
+        self.format_header()
     
+    # Method: format header
+    # Purpose: Used for formatting a packet's header with data over the socket.
+    #          Uses the json library for structure
+    #
+    # Output: Returns the json POST dump of the header to be sent
+    def format_header(self):
+        header = {
+
+                    "STATUS" :  "POST"
+                    "Message ID" : message_id
+                    "Username" : sender.username
+                    "Subject" : subject
+                    "Date and Time" : date
+                    "Body" : message
+                    "Group ID" : sender.current_group
+
+                 }
+        # Dump the header to be sent
+        return json.dumps(header)
+
+    # Method: update date
+    # Purpose: updates the date for the message.
     def update_date(self):
         self.date = date_and_time().to_string()
+        self.format_header()
     
+    # Method: print message
+    # Purpose: Print the message. Used for viewing the board.
     # Format:
     #
     # Message ID:    [id]
@@ -98,6 +129,7 @@ class InvalidNumArguments(Exception):
 class user:
 
     current_group = ""
+    username = ""
 
     def __init__(self, username: str):
         self.username = username
@@ -264,8 +296,10 @@ class user:
             print(f"Invalid Arguments: {keyword} takes {valid_num_args_dict[keyword]} arguments, {len()} arguments were provided.")
         
         # For Final Product
-        #except:
-            #print("An unknown error occured. Type 'help' for a list of commands.")
+        
+        except:
+            if(not debug_flag):
+                print("An unknown error occured. Type 'help' for a list of commands.")
 
 if debug_flag:
     u = user("Derek")
