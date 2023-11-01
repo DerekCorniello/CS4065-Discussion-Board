@@ -97,6 +97,8 @@ class InvalidNumArguments(Exception):
 
 class user:
 
+    current_group = ""
+
     def __init__(self, username: str):
         self.username = username
 
@@ -104,28 +106,32 @@ class user:
     HELP_TABLE =        """
                         -----------------------------------------------------------------------Commands--------------------------------------------------------------------------------
                         
-                        help                                    : Opens the commands section
-                        connect -[address] -[port]              : Connects to the running bulletin board server using the address and port.
-                        join                                    : Join the default message board.
-                        post -[subject] -[message]              : Posts a message with a subject to the default board.
-                        users                                   : Retrieves a list of users in the default group.
-                        leave                                   : Leave the default group.
-                        message -[id]                           : Retrieve the content of the message given by the id.
-                        exit                                    : Exits the client program.
-                        groups                                  : Retrieve a list of all groups that can be joined.
-                        groupjoin -[name]                       : Join a specific group with given name.
-                        grouppost -[name] -[subject] -[message] : Posts a message with a subject to the board given by the name.
-                        groupusers -[name]                      : Retrieves a list of users in the group given by the name.
-                        groupleave -name]                       : Leaves a specific group.
-                        groupmessage -[name] -[id]              : Retrieves the content of a message using it's id posted earlier on a message board given by its name in a specific group.
+                        help                                     : Opens the commands section
+                        connect -[address] -[port]               : Connects to the running bulletin board server using the address and port.
+                        join                                     : Join the default message board.
+                        post -[subject] -[message]               : Posts a message with a subject to the default board.
+                        users                                    : Retrieves a list of users in the default group.
+                        leave                                    : Leave the default group.
+                        message -[id]                            : Retrieve the content of the message given by the id.
+                        exit                                     : Exits the client program.
+                        groups                                   : Retrieve a list of all groups that can be joined.
+                        groupjoin -[name]                        : Join a specific group with given name.
+                        grouppost -[name] -[subject] -[message]  : Posts a message with a subject to the board given by the name.
+                        groupusers -[name]                       : Retrieves a list of users in the group given by the name.
+                        groupleave -[name]                       : Leaves a specific group.
+                        groupmessage -[name] -[id]               : Retrieves the content of a message using it's id posted earlier on a message board given by its name in a specific group.
 
                         """
+
     valid_num_args_dict = myDict = {
                                         **dict.fromkeys(['help', 'join', 'users', 'leave', 'exit', 'groups'], 0), 
                                         **dict.fromkeys(['message', 'groupjoin', 'groupusers', 'groupleave'], 1),
                                         **dict.fromkeys(['connect', 'post', 'groupmessage'], 2),
                                                          'grouppost': 3
                                     }
+
+    def group_check(self, group: str):
+        return (group == self.group)
 
     # Function: Parse input
     # Purpose: take inputs and follow actions like in a command line
@@ -150,58 +156,102 @@ class user:
 
             match keyword:
 
+                # Display the help function
                 case "help":
                     print(self.HELP_TABLE)
+                    return
 
+                # Connect to the server
                 case "connect":
+                    # TODO: connect
+                    pass
                     
-                    pass
-        
+                # Join the DEFAULT group
                 case "join":
-
+                    # TODO: join 
+                    self.current_group = "DEFAULT"
                     pass 
-
+                
+                # Post to the DEFAULT group
                 case "post":
-
+                    # TODO: post
                     pass
 
+                # Obtain the users in the DEFAULT group
                 case "users":
+                    # TODO: obtain the users in default
                     pass
-
+                
+                # Leave the DEFAULT group
                 case "leave":
+                    # TODO: Leave the group
 
+                    self.current_group = ""
                     pass
-
+                
+                # Find a previous message in the DEFAULT group
                 case "message":
-
+                    # TODO: Retrieve the message
                     pass
 
+                # Exit application
                 case "exit":
-
-                    pass
-
+                    # TODO: Disconnect from server
+                    exit()
+                
+                # Display the groups that are available on the server
                 case "groups":
-
+                    # TODO: display all the groups
                     pass
-
+                
+                # Joins a specific group
                 case "groupjoin":
 
-                    pass
+                    # Check if they are already in the group, and return after
+                    if (group_check(args[0])):
+                        print("You're already in this group!")
+                        return
 
+                    # If they aren't, but they are in a group
+                    if (self.current_group != ""):
+                        print(f"Leaving group '{current_group}, joining {args[0]}'")
+                        # TODO: Leave the group here
+
+                    self.current_group = args[0]
+                    # TODO: Join the group
+                    pass
+                
+                # Posts in a specific group
                 case "grouppost":
+                    if (group_check(args[0])):
+                        print(f"You must join the group '{args[0]}' first!")
 
+                    # TODO: Post to the group
                     pass
-
+                
+                # Retrieves the current users in the group
                 case "groupusers":
+                    if (group_check(args[0])):
+                        print(f"You must join the group '{args[0]}' first!")
 
+                    # TODO: Retrieve the users in the group
                     pass
-
+                
+                # Leaves the group
                 case "groupleave":
-                    
+                    if (group_check(args[0])):
+                        print(f"You are not in group '{args[0]}', you are in {self.current_group}.")
+
+                    self.current_group = ""
+                    # TODO: Leave the group                    
                     pass
-
+                
+                # Retrieve a message in the group
                 case "groupmessage":
+                    if (group_check(args[0])):
+                        print(f"You must join the group '{args[0]}' first!")
 
+                    # TODO: Retrieve the message
                     pass
 
         except InvalidKeyword:
@@ -217,5 +267,6 @@ class user:
         #except:
             #print("An unknown error occured. Type 'help' for a list of commands.")
 
-u = user("Derek")
-u.parse_input()
+if debug_flag:
+    u = user("Derek")
+    u.parse_input()
