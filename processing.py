@@ -104,20 +104,20 @@ class user:
     HELP_TABLE =        """
                         -----------------------------------------------------------------------Commands--------------------------------------------------------------------------------
                         
-                        help                                 : Opens the commands section
-                        connect [address] [port]             : Connects to the running bulletin board server using the address and port.
-                        join                                 : Join the default message board.
-                        post [subject] [message]             : Posts a message with a subject to the default board.
-                        users                                : Retrieves a list of users in the default group.
-                        leave                                : Leave the default group.
-                        message [id]                         : Retrieve the content of the message given by the id.
-                        exit                                 : Exits the client program.
-                        groups                               : Retrieve a list of all groups that can be joined.
-                        groupjoin [name]                     : Join a specific group with given name.
-                        grouppost [name] [subject] [message] : Posts a message with a subject to the board given by the name.
-                        groupusers [name]                    : Retrieves a list of users in the group given by the name.
-                        groupleave [name]                    : Leaves a specific group.
-                        groupmessage [name] [id]             : Retrieves the content of a message using it's id posted earlier on a message board given by its name in a specific group.
+                        help                                    : Opens the commands section
+                        connect -[address] -[port]              : Connects to the running bulletin board server using the address and port.
+                        join                                    : Join the default message board.
+                        post -[subject] -[message]              : Posts a message with a subject to the default board.
+                        users                                   : Retrieves a list of users in the default group.
+                        leave                                   : Leave the default group.
+                        message -[id]                           : Retrieve the content of the message given by the id.
+                        exit                                    : Exits the client program.
+                        groups                                  : Retrieve a list of all groups that can be joined.
+                        groupjoin -[name]                       : Join a specific group with given name.
+                        grouppost -[name] -[subject] -[message] : Posts a message with a subject to the board given by the name.
+                        groupusers -[name]                      : Retrieves a list of users in the group given by the name.
+                        groupleave -name]                       : Leaves a specific group.
+                        groupmessage -[name] -[id]              : Retrieves the content of a message using it's id posted earlier on a message board given by its name in a specific group.
 
                         """
     valid_num_args_dict = myDict = {
@@ -135,10 +135,11 @@ class user:
         command = input()
 
         keyword = command.split(' ')[0]
-        args = command.split(' ')[1:]
+        args = command.split(' -')[1:]
         
         if debug_flag:
-            print("Keyword:" + keyword)
+            print("Keyword:")
+            print(keyword)
             print("Arguments: ")
             print(args)
 
