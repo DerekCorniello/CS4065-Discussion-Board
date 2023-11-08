@@ -30,18 +30,7 @@ class date_and_time:
     def to_string(self):
         return(f"{self.month}-{self.day}-{self.year} @ {self.hour}:{self.minute}:{self.sec}")
         
-# Class: message header
-# Purpose: Store information about a message for it to be sent later on and read in
-# 
-# Inputs: id, name of sender, a subject and a message
-#
-# Functions:
-#       
-#       update_date(): Changes current time 
-#
-#       print_message(): Prints the message with all necessary info held in the class.
-#
-#       format_header(): Formats the header for web socket communication
+
 
 # Class: Invalid Keyword, inherits Exception class
 # Purpose: Raise an exception for a bad keyword
@@ -54,6 +43,10 @@ class InvalidNumArguments(Exception):
     pass
 
 
+# Class: User
+# Purpose: Store user data, like current port, address, etc. for use later
+#
+# Inputs: username
 class user:
 
     current_group = ""
@@ -229,15 +222,24 @@ class user:
             if(not debug_flag):
                 print("An unknown error occured. Type 'help' for a list of commands.")
 
-# Class: User
-# Purpose: Store user data, like current port, address, etc. for use later
+# Class: message header
+# Purpose: Store information about a message for it to be sent later on and read in
+# 
+# Inputs: id, name of sender, a subject and a message
 #
-# Inputs: username
+# Methods:
+#       
+#       update_date(): Changes current time 
+#
+#       print_message(): Prints the message with all necessary info held in the class.
+#
+#       format_header(): Formats the header for web socket communication
 
 class message_header:
     message_id = 0
     header = subject = message = ""
     sender = date = None
+
 
     def __init__(self, message_id: int, sender: user, subject: str, message: str):
         self.message_id = message_id
@@ -264,6 +266,7 @@ class message_header:
                     "Group ID" : self.sender.current_group,
 
                  }
+        
         # Dump the header to be sent
         return json.dumps(header)
 
@@ -300,4 +303,3 @@ class message_header:
 
 if debug_flag:
     u = user("Derek")
-    u.parse_input()

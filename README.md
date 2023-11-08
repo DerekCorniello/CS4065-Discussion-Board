@@ -5,7 +5,7 @@ JSON Headers:
 
     Current Statuses:
 
-        POST -> (From Client to Server) Post the message
+        POST ->  Post the message
 
             POST Header Format:
 
@@ -17,7 +17,7 @@ JSON Headers:
             "Body"          :   Body of the message
             "Group ID"      :   ID of the group posting to
 
-        OK -> (From Server to Client) Message successfully posted
+        OK ->  Message successfully posted
 
             OK Header Format:
 
@@ -25,7 +25,7 @@ JSON Headers:
             "Message ID"    :   ID of message posted
             "Group ID"      :   ID of group posting to
 
-        BAD -> (From Server to Client) Message not posted
+        BAD -> Message not posted
         
             BAD Header Format:
 
@@ -34,3 +34,5 @@ JSON Headers:
             "Group ID"      :   ID of group posting to
             "Error Code"    :   Code back for why we cannot post
             (TODO: Either do an error code or message)
+
+        
