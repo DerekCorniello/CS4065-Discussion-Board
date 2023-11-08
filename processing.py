@@ -43,77 +43,9 @@ class date_and_time:
 #
 #       format_header(): Formats the header for web socket communication
 
-class message_header:
-    message_id = 0
-    header = subject = message = ""
-    sender = date = None
-
-    def __init__(self, message_id: int, sender: User, subject: str, message: str):
-        self.message_id = message_id
-        self.sender = sender
-        self.subject = subject
-        self.message = message
-        self.update_date()
-        self.format_header()
-    
-    # Method: format header
-    # Purpose: Used for formatting a packet's header with data over the socket.
-    #          Uses the json library for structure
-    #
-    # Output: Returns the json POST dump of the header to be sent
-    def format_header(self):
-        header = {
-
-                    "STATUS" :  "POST"
-                    "Message ID" : message_id
-                    "Username" : sender.username
-                    "Subject" : subject
-                    "Date and Time" : date
-                    "Body" : message
-                    "Group ID" : sender.current_group
-
-                 }
-        # Dump the header to be sent
-        return json.dumps(header)
-
-    # Method: update date
-    # Purpose: updates the date for the message.
-    def update_date(self):
-        self.date = date_and_time().to_string()
-        self.format_header()
-    
-    # Method: print message
-    # Purpose: Print the message. Used for viewing the board.
-    # Format:
-    #
-    # Message ID:    [id]
-    # From:          [Username]
-    # Subject:       [Subject]
-    # On:            [dateandtime]
-    #
-    # [Message]
-
-    def print_message(self):
-        if self.subject == "" or self.subject == None: # if there is no subject, change the subject line
-            self.subject = "[No Subject]"
-        # Print in the above format
-        print((
-            "Message ID:    {}\n"
-            "From:          {}\n"
-            "Subject:       {}\n"
-            "On:            {}\n"
-                             "\n"
-            "{}"
-        ).format(self.message_id, self.sender, self.subject, self.date, self.message))
-
 # Class: Invalid Keyword, inherits Exception class
 # Purpose: Raise an exception for a bad keyword
 class InvalidKeyword(Exception):
-    pass
-
-# Class: Invalid Arguments, inherits Exception class
-# Purpose: Raise an exception for missing or bad agruments
-class InvalidArguments(Exception):
     pass
 
 # Class: Invalid Number of Arguments, inherits Exception class
@@ -121,10 +53,6 @@ class InvalidArguments(Exception):
 class InvalidNumArguments(Exception):
     pass
 
-# Class: User
-# Purpose: Store user data, like current port, address, etc. for use later
-#
-# Inputs: username
 
 class user:
 
@@ -240,14 +168,18 @@ class user:
                 case "groupjoin":
 
                     # Check if they are already in the group, and return after
-                    if (group_check(args[0])):
+                    if (self.group_check(args[0])):
                         print("You're already in this group!")
                         return
 
                     # If they aren't, but they are in a group
                     if (self.current_group != ""):
-                        print(f"Leaving group '{current_group}, joining {args[0]}'")
+                        print(f"Leaving group '{self.current_group}, joining {args[0]}'")
                         # TODO: Leave the group here
+
+                    # TODO: Check if the group is valid,
+                    #       If not, ask them to create one,
+                    #       and update the server.
 
                     self.current_group = args[0]
                     # TODO: Join the group
@@ -255,7 +187,7 @@ class user:
                 
                 # Posts in a specific group
                 case "grouppost":
-                    if (group_check(args[0])):
+                    if (self.group_check(args[0])):
                         print(f"You must join the group '{args[0]}' first!")
 
                     # TODO: Post to the group
@@ -263,7 +195,7 @@ class user:
                 
                 # Retrieves the current users in the group
                 case "groupusers":
-                    if (group_check(args[0])):
+                    if (self.group_check(args[0])):
                         print(f"You must join the group '{args[0]}' first!")
 
                     # TODO: Retrieve the users in the group
@@ -271,7 +203,7 @@ class user:
                 
                 # Leaves the group
                 case "groupleave":
-                    if (group_check(args[0])):
+                    if (self.group_check(args[0])):
                         print(f"You are not in group '{args[0]}', you are in {self.current_group}.")
 
                     self.current_group = ""
@@ -280,26 +212,91 @@ class user:
                 
                 # Retrieve a message in the group
                 case "groupmessage":
-                    if (group_check(args[0])):
+                    if (self.group_check(args[0])):
                         print(f"You must join the group '{args[0]}' first!")
 
                     # TODO: Retrieve the message
                     pass
 
         except InvalidKeyword:
-            print(f"Invalid Keyword: '{keyword}'. Type 'help' for a list of commands.")
-        
-        except InvalidArguments:
-            print(f"Invalid Argument: '{invalid_arg}' for '{keyword}'. Type 'help' for a list of commands.")
+            print(f"Invalid Keyword: '{keyword}'.\nType 'help' for a list of commands.")
 
         except InvalidNumArguments:
-            print(f"Invalid Arguments: {keyword} takes {valid_num_args_dict[keyword]} arguments, {len()} arguments were provided.")
+            print(f"Invalid Arguments: {keyword} takes {self.valid_num_args_dict[keyword]} arguments, {len()} arguments were provided.\nType 'help' for a list of commands.")
         
         # For Final Product
-        
         except:
             if(not debug_flag):
                 print("An unknown error occured. Type 'help' for a list of commands.")
+
+# Class: User
+# Purpose: Store user data, like current port, address, etc. for use later
+#
+# Inputs: username
+
+class message_header:
+    message_id = 0
+    header = subject = message = ""
+    sender = date = None
+
+    def __init__(self, message_id: int, sender: user, subject: str, message: str):
+        self.message_id = message_id
+        self.sender = sender
+        self.subject = subject
+        self.message = message
+        self.update_date()
+        self.format_header()
+    
+    # Method: format header
+    # Purpose: Used for formatting a packet's header with data over the socket.
+    #          Uses the json library for structure
+    #
+    # Output: Returns the json POST dump of the header to be sent
+    def format_header(self):
+        header = {
+
+                    "STATUS" :  "POST",
+                    "Message ID" : self.message_id,
+                    "Username" : self.sender.username,
+                    "Subject" : self.subject,
+                    "Date and Time" : self.date,
+                    "Body" : self.message,
+                    "Group ID" : self.sender.current_group,
+
+                 }
+        # Dump the header to be sent
+        return json.dumps(header)
+
+    # Method: update date
+    # Purpose: updates the date for the message.
+    def update_date(self):
+        self.date = date_and_time().to_string()
+        self.format_header()
+    
+    # Method: print message
+    # Purpose: Print the message. Used for viewing the board.
+    # Format:
+    #
+    # Message ID:    [id]
+    # From:          [Username]
+    # Subject:       [Subject]
+    # On:            [dateandtime]
+    #
+    # [Message]
+
+    def print_message(self):
+        if self.subject == "" or self.subject == None: # if there is no subject, change the subject line
+            self.subject = "[No Subject]"
+        # Print in the above format
+        print((
+            "Message ID:    {}\n"
+            "From:          {}\n"
+            "Subject:       {}\n"
+            "On:            {}\n"
+                             "\n"
+            "{}"
+        ).format(self.message_id, self.sender, self.subject, self.date, self.message))
+
 
 if debug_flag:
     u = user("Derek")
