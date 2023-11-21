@@ -1,3 +1,8 @@
 To-Do List:
 
-1.  
+1. To-Dos in each code
+2. Convert python code to Java? (Check Discord.)
+3. Update Makefile when making big code changes (Check there for examples)
+4. Write server code
+5. Test test test!
+6. (Extra Credit) Make GUI
