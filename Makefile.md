@@ -4,7 +4,7 @@
 
 ---
 
-JSON Headers:
+Headers:
 
     Current Statuses:
 
@@ -35,7 +35,15 @@ JSON Headers:
             "STATUS"        :   "BAD"
             "Message ID"    :   ID of message posted
             "Group ID"      :   ID of group posting to
-            "Error Code"    :   Code back for why we cannot post
-            (TODO: Either do an error code or message)
+            "Error Message" :   Message back for why we cannot post
+
 
         
+Issues We came across:
+    - How to structure the packets coming through?
+    - Originally coded in Python, but it made more sense to code in Java due to:
+        - Usability
+        - Readability
+        - Java's server/client syntax
+        - Background of programmers
+    - 
