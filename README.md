@@ -1,8 +1,6 @@
-# Multi Clients Server
+# Multiple Client/Server Discussion Board
 
-## Description
-
-## How to run the code
+## How to run the code using command line 
 
 - Make sure you clone the code, the navigate to the code root folder
 - Open terminal and type
