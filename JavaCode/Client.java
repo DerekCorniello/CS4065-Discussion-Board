@@ -143,7 +143,7 @@ public class Client {
                 socket = new Socket("localhost", portNum);         
         } catch (Exception e) {
                 System.out.println("Could not connect to server on port " + portNum + ".");
-                //System.exit(1);
+                System.exit(1);
         }
         
         clearScreen();
