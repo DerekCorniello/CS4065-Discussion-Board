@@ -39,20 +39,27 @@ public class ClientHandler implements Runnable {
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
     private String clientUsername;
+    private Server server;
 
-    public ClientHandler(Socket socket) throws IOException {
+    public ClientHandler(Socket socket, Server server) throws IOException {
         try {
 
             // Establish connection with client
             this.socket = socket;
+            this.server = server;
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             // Get username from the client
+            // One null line, so skip the first line
+            
             this.clientUsername = bufferedReader.readLine();
+            this.clientUsername = bufferedReader.readLine();
+
 
             // If a username already existed, ask them to enter another one
             while (usernames.contains(this.clientUsername)) {
+                
                 this.bufferedWriter.write("\n<SERVER> Username taken. Please try a different one:\n");
                 this.bufferedWriter.newLine();
                 this.bufferedWriter.flush();
@@ -92,21 +99,26 @@ public class ClientHandler implements Runnable {
 
                 // Getting command from client
                 commandFromClient = bufferedReader.readLine();
+
                 // Execute command
                 executeCommand(commandFromClient);
 
             } catch (IOException e) {
 
                 // Close connection if error
+                
                 try {
                     closeEverything(socket, bufferedReader, bufferedWriter);
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
                 break;
             }
+        
         }
+        this.server.clients--;
+        this.server.updateMessage();
+        
     }
 
     // Check to see if the client is in a group
@@ -307,24 +319,6 @@ public class ClientHandler implements Runnable {
     // Leave a group the client is currently in
     public void leaveGroup(String groupId) throws IOException {
 
-        // Since the client is automatically put in public group when they join, this is
-        // one group they cannot leave, they can instead exit the server.
-        /*if (groupId.equals("PG")) {
-
-            try {
-
-                this.bufferedWriter
-                        .write("\n<SERVER> ERROR. Cannot leave Public Group. Type /exit to leave the Server.\n");
-                this.bufferedWriter.newLine();
-                this.bufferedWriter.flush();
-
-            } catch (IOException e) {
-                closeEverything(socket, bufferedReader, bufferedWriter);
-            }
-
-            return;
-        }*/
-
         // get group by Id
         ArrayList<ClientHandler> group = getGroupById(groupId);
 
@@ -514,7 +508,11 @@ public class ClientHandler implements Runnable {
             // /groups
 
             this.bufferedWriter.write("\n<SERVER> Available groups:\n");
-            this.bufferedWriter.write("\n         Public Group - Group ID: PG - Joined\n");
+            if (isInGroup(publicGroup)) {
+                this.bufferedWriter.write("       Public Group - Group ID: G1 - Joined\n");
+            } else {
+                this.bufferedWriter.write("\n     Public Group - Group ID: PG\n");
+            }
             if (isInGroup(privateGroup1)) {
                 this.bufferedWriter.write("         Group 1      - Group ID: G1 - Joined\n");
             } else {
@@ -626,6 +624,7 @@ public class ClientHandler implements Runnable {
             this.bufferedWriter.flush();
 
             closeEverything(socket, bufferedReader, bufferedWriter);
+            //System.exit(0);
         }
 
         // cmd to print list of all available commands from the server
