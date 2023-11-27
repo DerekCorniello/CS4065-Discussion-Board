@@ -309,7 +309,7 @@ public class ClientHandler implements Runnable {
 
         // Since the client is automatically put in public group when they join, this is
         // one group they cannot leave, they can instead exit the server.
-        if (groupId.equals("PG")) {
+        /*if (groupId.equals("PG")) {
 
             try {
 
@@ -323,7 +323,7 @@ public class ClientHandler implements Runnable {
             }
 
             return;
-        }
+        }*/
 
         // get group by Id
         ArrayList<ClientHandler> group = getGroupById(groupId);
@@ -433,6 +433,9 @@ public class ClientHandler implements Runnable {
         try {
             // Post the message in the group if they are in the group
             if (isInGroup(group)) {
+                this.bufferedWriter.write("\nSuccessfully posted your message with ID: " + msgId + "\n");
+                this.bufferedWriter.newLine();
+                this.bufferedWriter.flush();
                 groupMessages.add(newMessage);
                 broadcastMessage(group, newMessage.printFullMessage());
             }
@@ -442,6 +445,7 @@ public class ClientHandler implements Runnable {
                 this.bufferedWriter.newLine();
                 this.bufferedWriter.flush();
             }
+            this.bufferedWriter.flush();
 
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);

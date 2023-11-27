@@ -18,6 +18,9 @@ public class Client {
             this.socket = socket;
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            bufferedWriter.write("Currently in the Public Group.");
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
             this.username = username;
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);
@@ -98,7 +101,20 @@ public class Client {
     }
 
     public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
+        //System.out.print("\033[H\033[2J");
+        try {
+            // Check if the operating system is Windows
+            if (System.getProperty("os.name").startsWith("Windows")) {
+                // Execute the "cls" command to clear the console
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                // Note: This may not work on all non-Windows systems, as the command can vary
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         System.out.flush();
     }
 
