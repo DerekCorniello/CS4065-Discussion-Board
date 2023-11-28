@@ -1,5 +1,5 @@
 # Multiple Client/Server Discussion Board
-
+###Derek Corniello, Kyle Willoughby, Jack Vo**
 ## How to run the code using command line 
 
 - Make sure you clone the code, the navigate to the code root folder
