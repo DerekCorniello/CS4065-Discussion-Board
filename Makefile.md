@@ -4,46 +4,36 @@
 
 ---
 
-Headers:
+Header Format:
 
-    Current Statuses:
+        "STATUS"        :   "POST"
+        "Message ID"    :   ID of message sent
+        "Username"      :   Sender's username
+        "Subject"       :   Subject of message
+        "Date and Time" :   Date and time of message
+        "Body"          :   Body of the message
+        "Group ID"      :   ID of the group posting to
 
-        POST ->  Post the message
+Issues and solutions we came across:
 
-            POST Header Format:
+    - How to structure the packets coming through? We chose to use plaintext for:
+        - Readability
+        - Usability
+        - Nativeness in Java
 
-            "STATUS"        :   "POST"
-            "Message ID"    :   ID of message sent
-            "Username"      :   Sender's username
-            "Subject"       :   Subject of message
-            "Date and Time" :   Date and time of message
-            "Body"          :   Body of the message
-            "Group ID"      :   ID of the group posting to
-
-        OK ->  Message successfully posted
-
-            OK Header Format:
-
-            "STATUS"        :   "OK"
-            "Message ID"    :   ID of message posted
-            "Group ID"      :   ID of group posting to
-
-        BAD -> Message not posted
-        
-            BAD Header Format:
-
-            "STATUS"        :   "BAD"
-            "Message ID"    :   ID of message posted
-            "Group ID"      :   ID of group posting to
-            "Error Message" :   Message back for why we cannot post
-
-
-        
-Issues We came across:
-    - How to structure the packets coming through?
     - Originally coded in Python, but it made more sense to code in Java due to:
         - Usability
         - Readability
         - Java's server/client syntax
         - Background of programmers
-    - 
+
+    - Choosing which structures had which rights/actions to choose from:
+        - Client file has everything needed to run the client side
+        - Server file runs the server, then creates many client handlers
+        - ClientHandler file holds the logic as to how the user and server communicate.
+    
+    - Deciding how to implement the connections with only using built-in functionality
+        - We used a lot of our knowledge from Project 1 to help
+    
+    - Testing and debugging across different operating systems was very hard to do. 
+        - We made a few features have different ways of accomplishing that through the use of identifying the running OS.

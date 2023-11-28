@@ -72,11 +72,12 @@ public class ClientHandler implements Runnable {
             publicGroup.add(this);
 
             this.bufferedWriter
-                    .write("\n<SERVER> Hello " + this.clientUsername + "! You are now in the Public Group!\n");
+                    .write("\n<SERVER> Hello " + this.clientUsername + "! You are now connected to the server and in the default public group!\n");
             this.bufferedWriter.write("         Type /help to learn more about our commands!\n");
             this.bufferedWriter.newLine();
             this.bufferedWriter.flush();
 
+            printGroupUsers("PG");
             // Print most recent messages in the public group
             printRecentMessages("PG");
 
@@ -302,6 +303,7 @@ public class ClientHandler implements Runnable {
 
                 // Print most recents messages
                 printRecentMessages(groupId);
+                printGroupUsers(groupId);
 
             } else {
                 // If client is already in a group, print error

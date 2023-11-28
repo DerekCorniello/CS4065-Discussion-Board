@@ -15,14 +15,14 @@ In a terminal, run
 java JavaCode.Server
 ```
 
-if you see `Port number is: 1234` in the terminal, you have successfully ran the server.
+Enter in your desired port number, and ensure that the server is running before moving on.
 
 In another terminal, run
 
 ```bash
 java JavaCode.Client
 ```
-
+Your Client will *By Default* join the public group. You may exit this group at any time.
 ## Samples
 
 ```
