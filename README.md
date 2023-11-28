@@ -2,7 +2,7 @@
 ###Derek Corniello, Kyle Willoughby, Jack Vo**
 ## How to run the code using command line 
 
-- Make sure you clone the code, the navigate to the code root folder
+- Make sure you clone the code, the navigate to the code root folder (Note: This will change if you rearrange the files, such as for submission)
 - Open terminal and type
 
 ```bash
