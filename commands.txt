@@ -1,0 +1,49 @@
+Setup:
+
+cd C:\Users\Derek\Documents\GitHub\CS4065-Discussion-Board
+javac JavaCode/*.java
+java JavaCode.Server
+java JavaCode.Client
+
+Use port 5678
+
+Part 1:
+Joining:
+
+Usernames: 
+user1
+user2
+user3
+
+All users now in public group
+
+/post--PG--Message1--Hello1
+/leave--PG
+
+Part 2:
+
+user1:
+/join--G1
+
+user2, user3:
+/join--G2
+
+user1:
+/post--G1--Message2--Hello2
+
+user2:
+/post--G2--Message3--Hello3
+
+user2:
+/join--G3
+/post--G3--Message4--Hello4
+
+/exit
+
+Other Commands:
+
+Get users in Public Group
+/users--PG 
+
+Get msg with id PG1
+/msg--PG1
